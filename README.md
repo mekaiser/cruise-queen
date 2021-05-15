@@ -1,1 +1,1 @@
-# cruise-queen
+# Live site - https://mekaiser.github.io/cruise-queen/
