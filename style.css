@@ -134,3 +134,11 @@ a.active {
 #booking-successful {
   display: none;
 }
+.flying-from-to span,
+.departure-return span,
+#first-class-count-final-view,
+#economy-count-final-view,
+#total-final-view {
+  font-weight: bold;
+  color: #e33741;
+}

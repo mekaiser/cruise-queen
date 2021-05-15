@@ -49,20 +49,20 @@
                         <h3>Book Ocean Time</h3>
                     <div class="input-group">
                         <label for="">Flying From</label>
-                        <input class="inp-style" type="text" name="" placeholder="Dhake, Bangladesh">
+                        <input id="flying-from-input" class="inp-style" type="text" name="" placeholder="Dhake, Bangladesh">
                     </div>
                     <div class="input-group">
                         <label for="">Flying To</label>
-                        <input class="inp-style" type="text" name="" placeholder="New York, United States">
+                        <input id="flying-to-input" class="inp-style" type="text" name="" placeholder="New York, United States">
                     </div>
                     <div class="inputs">
                         <div class="input-group">
                             <label for="">Departure</label>
-                            <input class="inp-style" type="date" name="">
+                            <input id="departure-input" class="inp-style" type="date" name="" required="required">
                         </div>
                         <div class="input-group">
                             <label for="">Return</label>
-                            <input class="inp-style" type="date" name="">
+                            <input id="return-input" class="inp-style" type="date" name="" required="required">
                         </div>
                     </div>
                     <div class="input-group f-class">
@@ -141,9 +141,30 @@
                     </button>
                 </div>
 
-                <div style="padding: 10em 0; margin: 10em auto;" id="booking-successful">
-                    <h4 style="text-align: center;">Thank you so much!</h4>
-                    <p style="text-align: center;">You have successfully completed your booking. <br> Have a safe journey.</p>
+                <div style="padding: 2em 0; margin: 10em 2em;" id="booking-successful">
+                    <h3 style="text-align: center;">Thank you so much!</h3>
+                    <h5 style="text-align: center; color: #e33741;">You have successfully completed your booking.</h5>
+                    <hr>
+                    
+                    <h5 class="text-center mt-3 flying-from-to">You are flying from
+                        <span id="flying-from-final-view">
+                            invalid
+                        </span> 
+                        to 
+                        <span id="flying-to-final-view">
+                            invalid
+                        </span> 
+                    </h5>
+
+                    <p class="departure-return mt-3">Your departure date: <span id="departure-final-view"></span> </p>
+                    <p class="departure-return">Your return date: <span id="return-final-view"></span> </p>
+                    <hr>
+
+                    <p>You have booked <span id="first-class-count-final-view"></span> First Class ticket(s)</p>
+                    <p>You have booked <span id="economy-count-final-view"></span> Economy ticket(s)</p>
+                    <hr>
+
+                    <p>Your total cost is <span id="total-final-view"></span> </p>
                     
                 <div>
             </div>   
@@ -153,7 +174,7 @@
     <script>
         function handleTicketChange(ticket, isIncrease) {
           const ticketInput = document.getElementById(ticket + "-count");
-          const ticketCount = getInputValue(ticket);
+          const ticketCount = getInputValueTicket(ticket);
           let ticketNewCount = ticketCount;
           if (isIncrease == true) {
             ticketNewCount = ticketCount + 1;
@@ -173,8 +194,8 @@
         }
 
         function calculateTotal() {
-          const firstClassCount = getInputValue("first-class");
-          const economyCount = getInputValue("economy");
+          const firstClassCount = getInputValueTicket("first-class");
+          const economyCount = getInputValueTicket("economy");
 
           const totalPrice = firstClassCount * 150 + economyCount * 100;
 
@@ -187,7 +208,7 @@
           document.getElementById("total").innerText = "$" + grandTotal;
         }
 
-        function getInputValue(ticket) {
+        function getInputValueTicket(ticket) {
           const ticketInput = document.getElementById(ticket + "-count");
           const ticketCount = parseInt(ticketInput.value);
           
@@ -196,9 +217,43 @@
 
         document.getElementById("book-now").addEventListener("click", function(){
             document.getElementById("booking-going-on").style.display = "none";
-
             document.getElementById("booking-successful").style.display = "block";
+
+            getInputValueFlying("flying-from");
+            getInputValueFlying("flying-to");
+            getInputValueDate("departure");
+            getInputValueDate("return");
+            getCurrentTicketCount("first-class-count");
+            getCurrentTicketCount("economy-count");
+            getCurrentTotalCost("total");
         });
+
+        function getInputValueFlying(status){
+            const updatedStatus = document.getElementById(status + "-input").value
+            if(updatedStatus != ""){
+                document.getElementById(status + "-final-view").innerText = updatedStatus;
+            }
+            else{
+                document.getElementById(status + "-final-view").innerText = "invalid";
+            }
+        }
+
+        function getInputValueDate(status){
+            const dateEntered = document.getElementById(status + "-input").value;
+            const updatedDate = new Date(dateEntered);
+            console.log(dateEntered);
+            document.getElementById(status + "-final-view").innerText = updatedDate;
+        }
+
+        function getCurrentTicketCount(status){
+            const updatedStatus = document.getElementById(status).value;
+            document.getElementById(status + "-final-view").innerText = updatedStatus;
+        }
+
+        function getCurrentTotalCost(status){
+            const updatedStatus = document.getElementById(status).innerText;
+            document.getElementById(status + "-final-view").innerText = updatedStatus;
+        }
     </script>
 </body>
 </html>
